@@ -1,0 +1,298 @@
+BỘ ĐỀ TRẮC NGHIỆM HỆ ĐIỀU HÀNH TỔNG HỢP THEO CHƯƠNG (CHUẨN ĐỊNH DẠNG AZOTA)
+================================================================================
+
+CHƯƠNG 1: TỔNG QUAN HỆ ĐIỀU HÀNH & KIẾN TRÚC MÁY TÍNH
+
+Câu 1. Phát biểu nào sau đây về Hệ điều hành là KHÔNG chính xác?
+A. Hệ điều hành là chương trình trung gian giữa phần cứng máy tính và người sử dụng.
+B. Hệ điều hành đóng vai trò là bộ phân phối và quản lý tài nguyên hệ thống.
+*C. Hệ điều hành trực tiếp giải quyết các bài toán tính toán cụ thể của người dùng.
+D. Hệ điều hành đóng vai trò là chương trình điều khiển ngăn ngừa lỗi và việc sử dụng máy tính không hợp lệ.
+
+Câu 2. Chương trình nạp khởi động hệ thống (Bootstrap Program) thường được lưu trữ ở đâu và có nhiệm vụ gì?
+A. Lưu trong RAM, nạp các chương trình ứng dụng của người dùng vào bộ nhớ.
+*B. Lưu trong ROM hoặc EEPROM (firmware), khởi tạo phần cứng và nạp nhân (kernel) của HĐH vào RAM.
+C. Lưu trên ổ đĩa cứng, quản lý việc đăng nhập của người dùng.
+D. Lưu trong bộ nhớ đệm Cache L1, thiết lập bảng phân trang bộ nhớ.
+
+Câu 3. Ba tiêu chí cốt lõi được sử dụng để phân cấp hệ thống lưu trữ (Storage-Device Hierarchy) là:
+A. Tốc độ truy xuất, Chi phí trên bit, Khả năng thực thi tập lệnh đa dụng.
+*B. Tốc độ truy xuất, Chi phí trên bit, Tính bay hơi / khả năng duy trì dữ liệu khi mất điện (Volatility).
+C. Dung lượng lưu trữ, Chuẩn giao tiếp bus, Tần số xung nhịp.
+D. Tính bay hơi, Công nghệ bán dẫn, Số cổng kết nối I/O.
+
+Câu 4. Điểm khác biệt căn bản giữa Ngắt phần cứng (Hardware Interrupt) và Ngắt phần mềm (Trap / Exception) là:
+A. Ngắt phần cứng do bộ định thời CPU tạo ra, ngắt phần mềm do thiết bị bàn phím tạo ra.
+*B. Ngắt phần cứng gửi qua bus từ thiết bị ngoại vi; Ngắt phần mềm phát sinh do lỗi thực thi lệnh hoặc do lời gọi hệ thống (System Call).
+C. Ngắt phần cứng không cần Interrupt Vector, ngắt phần mềm bắt buộc phải dùng Interrupt Vector.
+D. Ngắt phần cứng chạy ở User mode, ngắt phần mềm chạy ở Kernel mode.
+
+Câu 5. Địa chỉ của các hàm phục vụ ngắt (Interrupt Service Routine - ISR) được lưu trữ trong cấu trúc nào sau đây?
+A. Process Control Block.
+*B. Véc-tơ ngắt (Interrupt Vector).
+C. Bảng trang (Page Table).
+D. Thanh ghi con trỏ lệnh (Program Counter).
+
+Câu 6. Hệ thống đa xử lý đối xứng (Symmetric Multiprocessing - SMP) có đặc điểm nào sau đây?
+A. Một bộ xử lý làm Master điều khiển toàn bộ hệ thống, các bộ xử lý khác là Slave.
+B. Các bộ xử lý chỉ giao tiếp với nhau thông qua mạng cục bộ LAN.
+*C. Mỗi bộ xử lý chạy một bản sao giống nhau của hệ điều hành, cùng chia sẻ bộ nhớ chung và bus hệ thống.
+D. Mỗi bộ xử lý sở hữu một không gian bộ nhớ vật lý hoàn toàn tách biệt, không thể đọc dữ liệu của nhau.
+
+Câu 7. Lợi ích nào sau đây KHÔNG PHẢI là ưu điểm chính của Hệ thống đa bộ xử lý (Multiprocessor Systems)?
+*A. Giảm chi phí phần mềm và không bao giờ xảy ra tình trạng tranh chấp bộ nhớ.
+B. Tăng thông lượng hệ thống (Increased Throughput).
+C. Tiết kiệm chi phí nhờ sử dụng chung các thiết bị ngoại vi và nguồn (Economy of Scale).
+D. Tăng độ tin cậy của hệ thống (Increased Reliability / Fault Tolerance).
+
+Câu 8. Hệ thống gom cụm (Clustered Systems) có đặc điểm nổi bật nào sau đây?
+A. Các nút tính toán nằm rải rác trên mạng diện rộng WAN và không bao giờ chia sẻ tài nguyên.
+*B. Gồm nhiều hệ thống độc lập làm việc với nhau, thường chia sẻ không gian lưu trữ qua mạng SAN và cung cấp độ sẵn sàng cao (High-Availability).
+C. Luôn hoạt động theo cơ chế đơn chương.
+D. Chỉ cho phép duy nhất một nút hoạt động, các nút còn lại bị tắt nguồn hoàn toàn.
+
+Câu 9. Trong cơ chế hoạt động Hai chế độ (Dual-Mode Operation), Bit chế độ (Mode bit) bằng 0 và 1 lần lượt đại diện cho:
+A. Chế độ Người dùng (User mode) và Chế độ Hạt nhân (Kernel mode).
+*B. Chế độ Hạt nhân (Kernel mode) và Chế độ Người dùng (User mode).
+C. Chế độ Khởi động (Boot mode) và Chế độ Tắt máy (Shutdown mode).
+D. Chế độ Đơn nhiệm (Single-task) và Chế độ Đa nhiệm (Multi-task).
+
+Câu 10. Lệnh nào sau đây là Lệnh đặc quyền (Privileged Instruction)?
+A. Lệnh thực hiện phép cộng trên các thanh ghi CPU.
+B. Lệnh đọc dữ liệu từ một biến cục bộ trong ngăn xếp (Stack).
+*C. Lệnh thay đổi giá trị của Bit chế độ (Mode bit) hoặc lệnh thao tác trực tiếp với thanh ghi điều khiển thiết bị I/O.
+D. Lệnh nhảy không điều kiện trong chương trình người dùng.
+
+Câu 11. Thành phần phần cứng nào được sử dụng để ngăn chặn một chương trình người dùng độc chiếm CPU vô hạn định?
+A. Bộ điều khiển đĩa (Disk Controller).
+*B. Bộ đếm thời gian (Timer).
+C. Thanh ghi con trỏ ngăn xếp (Stack Pointer).
+D. Bộ nhớ đệm (Cache).
+
+Câu 12. Phát biểu nào sau đây về Hệ thống Đa chương (Multiprogramming) là ĐÚNG?
+A. Mỗi lần chỉ có duy nhất một chương trình được nạp vào bộ nhớ chính.
+B. Các công việc luôn được thi hành tuần tự từ đầu đến cuối mới chuyển sang công việc khác.
+*C. Nhiều công việc được nạp đồng thời vào bộ nhớ chính; khi tiến trình hiện tại chờ I/O, HĐH sẽ chuyển CPU sang thực thi tiến trình khác.
+D. Không cần sự hỗ trợ của cơ chế ngắt từ phần cứng.
+
+--------------------------------------------------------------------------------
+
+CHƯƠNG 2: CẤU TRÚC & CÁC DỊCH VỤ CỦA HỆ ĐIỀU HÀNH
+
+Câu 13. Chức năng "Ánh xạ tập tin/thư mục vào thiết bị lưu trữ thứ cấp tương ứng" thuộc về thành phần nào của Hệ điều hành?
+A. Quản lý lưu trữ thứ cấp (Secondary Storage Management).
+*B. Quản lý tập tin (File Management).
+C. Quản lý bộ nhớ chính (Main Memory Management).
+D. Quản lý hệ thống I/O (I/O System Management).
+
+Câu 14. Thành phần Quản lý lưu trữ thứ cấp (Secondary Storage Management) của HĐH chịu trách nhiệm chính về:
+A. Quản lý quyền truy cập thư mục của các nhóm người dùng.
+*B. Cấp phát không gian lưu trữ (Storage allocation), quản lý không gian đĩa trống và định thời truy xuất đĩa.
+C. Cung cấp bộ nhớ đệm buffering và spooling cho máy in.
+D. Nạp mã lệnh của chương trình vào bộ nhớ chính RAM.
+
+Câu 15. Thành phần Quản lý hệ thống I/O (I/O System Management) của HĐH có nhiệm vụ chính nào?
+A. Cấp phát vùng nhớ Heap cho tiến trình người dùng.
+*B. Che giấu sự khác biệt phần cứng và cung cấp giao diện chung thống nhất đến các trình điều khiển thiết bị (Device Drivers).
+C. Biên dịch các câu lệnh dòng lệnh từ người dùng.
+D. Phân bổ các lát cắt thời gian CPU cho các luồng.
+
+Câu 16. Mục đích của Hệ thống Bảo vệ và An ninh (Protection and Security) KHÔNG bao gồm mục đích nào sau đây?
+A. Đảm bảo các tiến trình độc lập không xâm phạm, ảnh hưởng lẫn nhau.
+B. Kiểm soát việc truy cập của người dùng đối với các tài nguyên hệ thống.
+*C. Thu thập số liệu, lưu vết sử dụng tài nguyên của người dùng để tính phí (Accounting).
+D. Xác thực danh tính của người sử dụng khi đăng nhập.
+
+Câu 17. Ba phương pháp cơ bản nhất được sử dụng để truyền tham số cho Lời gọi hệ thống (System Calls) là:
+*A. Sử dụng Thanh ghi (Registers), Khối bộ nhớ / Bảng trong RAM (Block/Table in memory), Ngăn xếp (Stack).
+B. Sử dụng Thanh ghi, Vùng nhớ Heap, Ngăn xếp.
+C. Sử dụng Vùng nhớ chia sẻ, Đường ống (Pipe), Hàng đợi thông điệp.
+D. Sử dụng Tập tin trên đĩa, Vùng nhớ Heap, Bảng véc-tơ ngắt.
+
+Câu 18. Giao diện lập trình ứng dụng (API) chuẩn cho các lời gọi hệ thống trên các hệ thống họ UNIX, Linux và macOS là:
+A. Win32 API.
+*B. POSIX API.
+C. Java API.
+D. System V API.
+
+Câu 19. Đặc điểm cốt lõi của Kiến trúc Vi nhân (Microkernel) là gì?
+A. Toàn bộ các dịch vụ HĐH được biên dịch thành một khối duy nhất trong không gian nhân.
+*B. Chuyển phần lớn các chức năng của HĐH từ không gian nhân (Kernel space) sang không gian người dùng (User space), giao tiếp qua truyền thông điệp (Message Passing).
+C. Không hỗ trợ lời gọi hệ thống.
+D. Các module giao tiếp trực tiếp qua vùng nhớ Heap chung mà không thông qua nhân.
+
+Câu 20. Nhược điểm lớn nhất của Kiến trúc Vi nhân (Microkernel) so với Kiến trúc Đơn khối (Monolithic) là gì?
+A. Khó bảo trì và sửa lỗi hơn.
+B. Khi một dịch vụ người dùng bị lỗi sẽ làm sập toàn bộ hệ điều hành.
+*C. Hiệu năng hệ thống giảm do tốn chi phí chuyển ngữ cảnh (Context switch) và chi phí truyền thông điệp giữa User space và Kernel space.
+D. Không thể chạy được trên các vi xử lý hiện đại.
+
+Câu 21. Trong kiến trúc Phân lớp (Layered Approach) của Hệ điều hành, nguyên tắc gọi dịch vụ là:
+A. Một lớp có thể gọi trực tiếp bất kỳ lớp nào trong hệ thống.
+*B. Một lớp chỉ có thể gọi các dịch vụ của các lớp nằm ngay bên dưới nó.
+C. Lớp phần cứng (Lớp 0) có quyền gọi các hàm của Lớp giao diện người dùng (Lớp N).
+D. Các lớp chỉ được giao tiếp thông qua mạng cục bộ.
+
+Câu 22. Kiến trúc Hệ điều hành Lai (Hybrid Systems) là kiến trúc:
+A. Chỉ cho phép chạy trên các máy tính có hai CPU khác hãng.
+*B. Kết hợp nhiều cách tiếp cận cấu trúc khác nhau (như Monolithic, Phân lớp, Vi nhân) để cân bằng giữa hiệu suất và độ bảo mật.
+C. Chỉ sử dụng thuần túy mã máy nhị phân để viết nhân.
+D. Chỉ dùng cho các hệ thống nhúng đơn giản.
+
+--------------------------------------------------------------------------------
+
+CHƯƠNG 3: QUẢN LÝ TIẾN TRÌNH & TIỂU TRÌNH (PROCESSES & THREADS)
+
+Câu 23. Khi một chương trình C được nạp vào bộ nhớ để thực thi, các biến toàn cục (Global Variables) được lưu trữ tại phân vùng nào?
+A. Text Section.
+B. Stack Section.
+*C. Data Section.
+D. Heap Section.
+
+Câu 24. Vùng ngăn xếp (Stack Section) trong không gian địa chỉ của một tiến trình được sử dụng để chứa:
+A. Mã máy thực thi của chương trình.
+B. Bộ nhớ cấp phát động qua hàm malloc().
+*C. Dữ liệu tạm thời như biến cục bộ (Local variables), tham số hàm và địa chỉ trả về của hàm.
+D. Biến toàn cục và biến tĩnh.
+
+Câu 25. Trạng thái Ready của một tiến trình được định nghĩa chính xác là gì?
+A. Tiến trình vừa được tạo ra và đang nằm trên đĩa cứng chờ nạp vào RAM.
+B. Tiến trình đang được CPU thực thi các câu lệnh.
+*C. Tiến trình đã có đầy đủ tài nguyên cần thiết trong RAM, chỉ còn chờ được cấp phát CPU để chạy.
+D. Tiến trình đang tạm dừng để chờ đợi một sự kiện nhập xuất (I/O) hoàn thành.
+
+Câu 26. Một tiến trình đang ở trạng thái Running KHÔNG THỂ chuyển trực tiếp sang trạng thái nào sau đây?
+A. Ready.
+B. Waiting.
+C. Terminated.
+*D. New.
+
+Câu 27. Khối điều khiển tiến trình (PCB - Process Control Block) KHÔNG chứa thông tin nào sau đây?
+A. Trạng thái hiện tại của tiến trình và Bộ đếm chương trình (Program Counter).
+B. Các thanh ghi CPU và thông tin lập lịch CPU.
+C. Danh sách các tập tin đang mở và thông tin quản lý bộ nhớ.
+*D. Mã nguồn viết bằng ngôn ngữ C ban đầu của lập trình viên.
+
+Câu 28. Bộ định thời ngắn (Short-term Scheduler / CPU Scheduler) có nhiệm vụ:
+A. Nạp các tiến trình từ đĩa cứng vào bộ nhớ chính RAM để kiểm soát mức độ đa chương.
+*B. Chọn một tiến trình trong số các tiến trình đang ở Ready Queue để cấp phát CPU thực thi.
+C. Hoán đổi (swap) tiến trình từ RAM ra đĩa cứng khi bộ nhớ bị quá tải.
+D. Thu hồi bộ nhớ khi tiến trình kết thúc.
+
+Câu 29. Chuyển ngữ cảnh (Context Switch) được định nghĩa là gì?
+A. Quá trình giải phóng bộ nhớ của một tiến trình đã kết thúc.
+*B. Quá trình CPU dừng thực thi tiến trình này, lưu trạng thái của nó vào PCB và nạp trạng thái của tiến trình khác từ PCB để chạy.
+C. Quá trình chuyển một tiến trình từ hàng đợi Waiting sang hàng đợi Device.
+D. Quá trình chuyển đổi từ ngôn ngữ cấp cao sang mã máy.
+
+Câu 30. Giá trị trả về của lời gọi hệ thống fork() trong môi trường UNIX/Linux là:
+A. Luôn trả về 0 cho cả tiến trình cha và con.
+*B. Trả về 0 cho tiến trình con, trả về PID của con (> 0) cho tiến trình cha, và trả về -1 nếu gặp lỗi.
+C. Trả về PID của cha cho tiến trình con, và trả về 0 cho tiến trình cha.
+D. Trả về con trỏ vùng nhớ chia sẻ cho cả hai tiến trình.
+
+Câu 31. Hiện tượng "Tiến trình Zombie" (Zombie Process) xảy ra khi nào?
+A. Tiến trình cha bị hủy trước khi tiến trình con kết thúc.
+*B. Tiến trình con đã kết thúc (gọi exit), nhưng tiến trình cha chưa gọi lệnh wait() để đọc mã trạng thái kết thúc của nó.
+C. Tiến trình rơi vào vòng lặp vô tận không thể giải phóng CPU.
+D. Tiến trình cố tình truy xuất vùng nhớ bất hợp pháp ngoài tầm kiểm soát.
+
+Câu 32. Cơ chế giao tiếp liên tiến trình (IPC) nào có tốc độ truyền dữ liệu nhanh nhất và không cần sự can thiệp liên tục của nhân HĐH sau khi thiết lập?
+A. Truyền thông điệp (Message Passing).
+*B. Bộ nhớ chia sẻ (Shared Memory).
+C. Đường ống có đặt tên (Named Pipes).
+D. Ổ cắm mạng (Sockets).
+
+Câu 33. Ba điều kiện bắt buộc của một giải pháp cho bài toán Vùng tranh chấp (Critical Section Problem) là:
+*A. Loại trừ tương hỗ (Mutual Exclusion), Tiến triển (Progress), Chờ đợi có giới hạn (Bounded Waiting).
+B. Mutual Exclusion, Synchronization, Fairness.
+C. Atomicity, Consistency, Durability.
+D. Progress, First-Come First-Served, No Starvation.
+
+Câu 34. Giữa các Tiểu trình (Threads) trong cùng một Tiến trình, thành phần nào sau đây là RIÊNG BIỆT cho từng tiểu trình?
+A. Phân vùng mã lệnh (Code section).
+B. Phân vùng dữ liệu chứa các biến toàn cục (Data section).
+C. Danh sách các tập tin đang mở và tài nguyên HĐH.
+*D. Vùng ngăn xếp riêng (Stack), Bộ đếm chương trình (PC) và Tập thanh ghi (Registers).
+
+Câu 35. Các tiểu trình (threads) trong cùng một tiến trình thường chia sẻ chung những thành phần nào sau đây?
+A. Stack, Program Counter và Registers.
+*B. Phân vùng mã lệnh (Code), Phân vùng dữ liệu (Data) và Tài nguyên hệ điều hành (như Files đang mở).
+C. Stack, Thread ID và Registers.
+D. CPU Scheduler, Thanh ghi con trỏ lệnh và Ngăn xếp.
+
+Câu 36. Nhược điểm lớn nhất của Mô hình Đa tiểu trình Nhiều – Một (Many-to-One Model) là gì?
+A. Tiêu tốn quá nhiều tài nguyên của nhân HĐH khi tạo thread mới.
+*B. Nếu một tiểu trình thực hiện lời gọi hệ thống gây khóa (Blocking System Call), toàn bộ tiến trình sẽ bị khóa lại.
+C. Không thể chạy trên hệ điều hành Linux.
+D. Không cho phép các tiểu trình chia sẻ biến toàn cục với nhau.
+
+--------------------------------------------------------------------------------
+
+CHƯƠNG 4: ĐỊNH THỜI CPU (CPU SCHEDULING)
+
+Câu 37. Tiêu chuẩn định thời CPU nào sau đây cần được TỐI ĐA HÓA (Maximize)?
+A. Thời gian hoàn thành (Turnaround Time).
+B. Thời gian chờ (Waiting Time).
+C. Thời gian đáp ứng (Response Time).
+*D. Thông lượng hệ thống (Throughput) và Hiệu suất sử dụng CPU (CPU Utilization).
+
+Câu 38. "Hiệu ứng đoàn tàu" (Convoy Effect) là hiện tượng đặc trưng của thuật toán định thời nào?
+A. Round Robin.
+B. Shortest Job First (SJF).
+*C. First-Come, First-Served (FCFS).
+D. Multilevel Feedback Queue.
+
+Câu 39. Thuật toán định thời nào sau đây được chứng minh là TỐI ƯU NHẤT trong việc giảm thiểu Thời gian chờ trung bình (Average Waiting Time)?
+A. FCFS.
+*B. Shortest-Job-First (SJF).
+C. Round Robin.
+D. Priority Scheduling.
+
+Câu 40. Khi kích thước lát cắt thời gian (Time Quantum - q) trong giải thuật Round Robin rất lớn (tiến tới vô cùng), giải thuật này sẽ hoạt động tương đương với:
+A. SJF.
+B. SRTF.
+C. Priority Scheduling.
+*D. FCFS.
+
+Câu 41. Trong hệ thống định thời Round Robin gồm n tiến trình trong Ready Queue với lát cắt thời gian là q, thời gian tối đa mà một tiến trình phải chờ để nhận được phản hồi CPU đầu tiên là:
+A. n * q
+*B. (n - 1) * q
+C. (n + 1) * q
+D. q / n
+
+Câu 42. Nguy cơ lớn nhất của thuật toán định thời theo Độ ưu tiên (Priority Scheduling) là gì và giải pháp khắc phục là gì?
+A. Gây ra Convoy Effect; giải pháp là giảm quantum.
+*B. Gây ra Đói tài nguyên (Starvation) đối với tiến trình ưu tiên thấp; giải pháp là kỹ thuật Lão hóa (Aging).
+C. Làm tăng chi phí chuyển ngữ cảnh; giải pháp là dùng hàng đợi FIFO.
+D. Làm tràn bộ nhớ RAM; giải pháp là dùng Swapping.
+
+Câu 43. Điểm khác biệt căn bản giữa Hàng đợi nhiều mức (Multilevel Queue) và Hàng đợi phản hồi nhiều mức (Multilevel Feedback Queue) là:
+A. Multilevel Queue dùng cho hệ thống đa lõi; Multilevel Feedback Queue dùng cho hệ thống đơn lõi.
+*B. Multilevel Queue gắn cố định tiến trình vào một hàng đợi; Multilevel Feedback Queue cho phép tiến trình di chuyển linh hoạt giữa các hàng đợi khác nhau (hỗ trợ Aging).
+C. Multilevel Queue có cơ chế chống Starvation tốt hơn.
+D. Multilevel Queue luôn dùng giải thuật Round Robin cho tất cả các hàng đợi.
+
+Câu 44. Trong giải thuật Highest Response Ratio Next (HRRN), tỷ số phản hồi được tính bằng R = (w + s) / s. Yếu tố nào giúp giải thuật này loại bỏ hoàn toàn hiện tượng Starvation?
+A. Tỷ số R luôn cố định không đổi theo thời gian.
+*B. Khi tiến trình dài phải chờ đợi lâu trong hàng đợi, thời gian chờ w tăng lên làm tỷ số R tăng theo, giúp nó được chọn chạy.
+C. Giải thuật tự động chia nhỏ tiến trình thành nhiều phần.
+D. Giải thuật sử dụng cơ chế trưng dụng CPU ngay lập tức.
+
+Câu 45. Trên hệ thống đa xử lý đối xứng (SMP), hoạt động Cân bằng tải (Load Balancing) di chuyển tiến trình giữa các CPU sẽ làm suy giảm tính chất nào?
+A. Tính công bằng của bộ định thời.
+*B. Tính chất Ái lực bộ xử lý (Processor Affinity) do dữ liệu trong bộ nhớ đệm (Cache) bị vô hiệu hóa.
+C. Tần số xung nhịp của CPU rảnh rỗi.
+D. Dung lượng bộ nhớ ảo của tiến trình.
+
+Câu 46. Bộ định thời CFS (Completely Fair Scheduler) trong nhân Linux theo dõi thời gian thực thi của tác vụ thông qua đại lượng nào?
+A. Độ ưu tiên tĩnh từ 0 đến 31.
+*B. Thời gian chạy ảo (vruntime - virtual run time) được lưu trữ trong cây Đỏ - Đen (Red-Black Tree).
+C. Số lần tiến trình bị timer interrupt ngắt.
+D. Số lượng file đang mở trong bảng PCB.
+
+Câu 47. Trong giải thuật Round Robin với quantum q = 8 ms, nếu một tiến trình phải chờ tối đa 80 ms để nhận được CPU lần đầu tiên thì số lượng tiến trình đang có trong Ready Queue là:
+A. 10 tiến trình.
+*B. 11 tiến trình.
+C. 12 tiến trình.
+D. 9 tiến trình.
