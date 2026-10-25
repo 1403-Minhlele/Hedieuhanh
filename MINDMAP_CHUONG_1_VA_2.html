@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mindmap Hệ Điều Hành - Chương 1 & Chương 2 (Bản Tương Tác Trực Quan)</title>
+<style>
+  :root {
+    --bg-main: #0b0f19;
+    --bg-card: #151d2e;
+    --bg-card-hover: #1e293f;
+    --border-color: #2a364f;
+    --text-primary: #f1f5f9;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+    --c1-color: #38bdf8;
+    --c1-glow: rgba(56, 189, 248, 0.2);
+    --c1-line: #0284c7;
+    --c2-color: #c084fc;
+    --c2-glow: rgba(192, 132, 252, 0.2);
+    --c2-line: #9333ea;
+    --accent: #fbbf24;
+    --danger: #f87171;
+    --success: #34d399;
+    --tree-line: #334155;
+    --node-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+  }
+
+  [data-theme="light"] {
+    --bg-main: #f8fafc;
+    --bg-card: #ffffff;
+    --bg-card-hover: #f1f5f9;
+    --border-color: #cbd5e1;
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-muted: #94a3b8;
+    --c1-color: #0284c7;
+    --c1-glow: rgba(2, 132, 199, 0.15);
+    --c1-line: #38bdf8;
+    --c2-color: #7e22ce;
+    --c2-glow: rgba(126, 34, 206, 0.15);
+    --c2-line: #c084fc;
+    --accent: #d97706;
+    --danger: #dc2626;
+    --success: #059669;
+    --tree-line: #cbd5e1;
+    --node-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; transition: background-color 0.2s, border-color 0.2s, color 0.2s; }
+  body { background-color: var(--bg-main); color: var(--text-primary); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; padding: 24px; min-height: 100vh; }
+  .header-wrapper { max-width: 1400px; margin: 0 auto 24px auto; }
+  .title-section { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; padding-bottom: 20px; border-bottom: 1px solid var(--border-color); }
+  .title-group h1 { font-size: 24px; font-weight: 800; background: linear-gradient(135deg, var(--c1-color), var(--c2-color)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .title-group p { font-size: 13.5px; color: var(--text-secondary); margin-top: 4px; }
+  .top-actions { display: flex; gap: 10px; align-items: center; }
+  .btn { background: var(--bg-card); border: 1px solid var(--border-color); color: var(--text-primary); padding: 8px 14px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; user-select: none; }
+  .btn:hover { background: var(--bg-card-hover); border-color: var(--text-muted); }
+  .toolbar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-top: 16px; padding: 12px 16px; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 10px; }
+  .search-box { position: relative; flex: 1; max-width: 400px; }
+  .search-box input { width: 100%; background: var(--bg-main); border: 1px solid var(--border-color); border-radius: 6px; padding: 8px 12px 8px 34px; color: var(--text-primary); font-size: 13.5px; outline: none; }
+  .search-box svg { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
+  .filter-tabs { display: flex; gap: 6px; }
+  .tab-btn { padding: 6px 12px; border-radius: 6px; border: 1px solid transparent; background: transparent; color: var(--text-secondary); font-size: 13px; font-weight: 600; cursor: pointer; }
+  .tab-btn.active { background: var(--bg-main); border-color: var(--border-color); color: var(--text-primary); }
+  .tab-btn[data-target="c1"].active { color: var(--c1-color); border-color: var(--c1-color); }
+  .tab-btn[data-target="c2"].active { color: var(--c2-color); border-color: var(--c2-color); }
+  .view-container { max-width: 1400px; margin: 0 auto; }
+  .view-panel { display: none; }
+  .view-panel.active { display: block; }
+
+  /* Tree Mindmap */
+  .mindmap-canvas { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 32px 24px; overflow-x: auto; box-shadow: var(--node-shadow); }
+  .tree-root-container { display: flex; flex-direction: column; gap: 40px; }
+  .chapter-tree { position: relative; padding-left: 20px; }
+  .chapter-pill { display: inline-flex; align-items: center; gap: 12px; padding: 12px 20px; border-radius: 12px; font-size: 16px; font-weight: 700; cursor: pointer; box-shadow: var(--node-shadow); margin-bottom: 24px; user-select: none; }
+  .chapter-pill.c1 { background: var(--c1-glow); border: 2px solid var(--c1-color); color: var(--c1-color); }
+  .chapter-pill.c2 { background: var(--c2-glow); border: 2px solid var(--c2-color); color: var(--c2-color); }
+  .badge { font-size: 11px; padding: 2px 8px; border-radius: 99px; background: rgba(0, 0, 0, 0.3); font-weight: 600; }
+  .branch-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 20px; margin-left: 16px; border-left: 2px dashed var(--tree-line); padding-left: 24px; }
+  .branch-node { background: var(--bg-main); border: 1px solid var(--border-color); border-radius: 10px; overflow: hidden; transition: transform 0.15s, border-color 0.15s; }
+  .branch-node:hover { border-color: var(--text-muted); box-shadow: var(--node-shadow); }
+  .branch-node.c1 { border-top: 3px solid var(--c1-color); }
+  .branch-node.c2 { border-top: 3px solid var(--c2-color); }
+  .branch-header { padding: 12px 16px; background: rgba(255, 255, 255, 0.02); display: flex; justify-content: space-between; align-items: center; cursor: pointer; user-select: none; border-bottom: 1px solid var(--border-color); }
+  .branch-title { font-size: 14.5px; font-weight: 700; }
+  .branch-node.c1 .branch-title { color: var(--c1-color); }
+  .branch-node.c2 .branch-title { color: var(--c2-color); }
+  .toggle-icon { font-size: 12px; color: var(--text-muted); transition: transform 0.2s; }
+  .branch-node.collapsed .toggle-icon { transform: rotate(-90deg); }
+  .branch-node.collapsed .branch-body { display: none; }
+  .branch-body { padding: 16px; }
+  .leaf-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+  .leaf-item { position: relative; padding-left: 16px; font-size: 13px; line-height: 1.55; color: var(--text-primary); }
+  .leaf-item::before { content: ""; position: absolute; left: 0; top: 7px; width: 6px; height: 6px; border-radius: 50%; }
+  .branch-node.c1 .leaf-item::before { background: var(--c1-color); }
+  .branch-node.c2 .leaf-item::before { background: var(--c2-color); }
+  .leaf-strong { font-weight: 600; color: var(--text-primary); }
+  .leaf-desc { color: var(--text-secondary); margin-top: 2px; }
+  .tag-label { display: inline-block; padding: 1px 6px; font-size: 10.5px; font-weight: 600; border-radius: 4px; margin-left: 4px; }
+  .tag-trap { background: rgba(248, 113, 113, 0.15); color: var(--danger); border: 1px solid rgba(248, 113, 113, 0.3); }
+  .tag-key { background: rgba(251, 191, 36, 0.15); color: var(--accent); border: 1px solid rgba(251, 191, 36, 0.3); }
+  .tag-good { background: rgba(52, 211, 153, 0.15); color: var(--success); border: 1px solid rgba(52, 211, 153, 0.3); }
+  .sub-steps { margin-top: 6px; padding: 8px 10px; background: var(--bg-card); border-radius: 6px; border-left: 3px solid var(--border-color); font-size: 12px; color: var(--text-secondary); }
+  .hidden-by-search { display: none !important; }
+
+  /* Tables View */
+  .section-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 24px; margin-bottom: 24px; box-shadow: var(--node-shadow); }
+  .section-card h2 { font-size: 18px; font-weight: 700; margin-bottom: 16px; }
+  .data-table-wrapper { overflow-x: auto; }
+  table.data-table { width: 100%; border-collapse: collapse; font-size: 13.5px; text-align: left; }
+  table.data-table th, table.data-table td { padding: 12px 14px; border-bottom: 1px solid var(--border-color); vertical-align: top; }
+  table.data-table th { background: var(--bg-main); color: var(--text-secondary); font-weight: 700; text-transform: uppercase; font-size: 12px; }
+  table.data-table tr:hover td { background: var(--bg-card-hover); }
+</style>
+</head>
+<body data-theme="dark">
+  <div class="header-wrapper">
+    <div class="title-section">
+      <div class="title-group">
+        <h1>🧠 MINDMAP HỆ ĐIỀU HÀNH — CHƯƠNG 1 & CHƯƠNG 2</h1>
+        <p>Bản đồ tư duy tương tác: Tìm kiếm nhanh, nhấp mở rộng/thu gọn và xem bảng đối chiếu kiến thức thi giữa kỳ.</p>
+      </div>
+      <div class="top-actions">
+        <button class="btn" id="toggleAllBtn" onclick="toggleAllNodes()"><span id="toggleAllIcon">📂</span> <span id="toggleAllText">Thu gọn tất cả</span></button>
+        <button class="btn" onclick="toggleTheme()">🌓 Giao diện Sáng/Tối</button>
+      </div>
+    </div>
+    <div class="toolbar">
+      <div class="search-box">
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/></svg>
+        <input type="text" id="searchInput" placeholder="Tìm kiếm nhanh (bootstrap, trap, microkernel, mode bit...)" oninput="handleSearch()" />
+      </div>
+      <div class="filter-tabs">
+        <button class="tab-btn active" data-view="mindmap" onclick="switchMainView('mindmap')">🌳 Sơ đồ Tư duy (Mindmap)</button>
+        <button class="tab-btn" data-view="tables" onclick="switchMainView('tables')">📊 Bảng So sánh & Bẫy Thi</button>
+      </div>
+      <div class="filter-tabs" id="chapterFilterGroup">
+        <button class="tab-btn active" data-target="all" onclick="filterChapter('all')">Tất cả</button>
+        <button class="tab-btn" data-target="c1" onclick="filterChapter('c1')">Chương 1</button>
+        <button class="tab-btn" data-target="c2" onclick="filterChapter('c2')">Chương 2</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="view-container">
+    <!-- MINDMAP VIEW -->
+    <div id="mindmapView" class="view-panel active">
+      <div class="mindmap-canvas">
+        <div class="tree-root-container">
+          <!-- CHƯƠNG 1 -->
+          <div class="chapter-tree" id="chapter1Tree">
+            <div class="chapter-pill c1" onclick="toggleChapter('chapter1Tree')">
+              <span>📘 CHƯƠNG 1: TỔNG QUAN & KIẾN TRÚC MÁY TÍNH</span>
+              <span class="badge">5 Chủ đề Trọng tâm</span>
+            </div>
+            <div class="branch-grid">
+              <div class="branch-node c1">
+                <div class="branch-header" onclick="toggleBranch(this)"><div class="branch-title">📌 1.1. Bản chất & Mục tiêu HĐH</div><span class="toggle-icon">▼</span></div>
+                <div class="branch-body">
+                  <ul class="leaf-list">
+                    <li class="leaf-item"><div class="leaf-strong">Định nghĩa:</div><div class="leaf-desc">Cầu nối trung gian giữa phần cứng máy tính và người dùng. Không trực tiếp giải quyết bài toán người dùng.</div></li>
+                    <li class="leaf-item"><div class="leaf-strong">Hai vai trò cốt lõi:</div><div class="sub-steps">• <strong>Resource Allocator:</strong> Quản lý và phân phối công bằng tài nguyên (CPU, RAM, I/O).<br>• <strong>Control Program:</strong> Kiểm soát thực thi chương trình để ngăn lỗi và hành vi trái phép.</div></li>
+                    <li class="leaf-item"><div class="leaf-strong">Mục tiêu:</div><div class="leaf-desc"><strong>Thuận tiện (Convenience)</strong> cho người dùng + <strong>Hiệu quả (Efficiency)</strong> khai thác phần cứng.</div></li>
+                    <li class="leaf-item"><div class="leaf-strong">Bootstrap Program: <span class="tag-label tag-trap">Bẫy đề thi</span></div><div class="leaf-desc">Lưu trong <strong>ROM hoặc EEPROM (Firmware)</strong>. Khởi tạo phần cứng &rarr; nạp OS Kernel vào RAM &rarr; chạy tiến trình đầu tiên.</div></li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="branch-node c1">
+                <div class="branch-header" onclick="toggleBranch(this)"><div class="branch-title">⚡ 1.2. Cơ chế Ngắt (Interrupt)</div><span class="toggle-icon">▼</span></div>
+                <div class="branch-body">
+                  <ul class="leaf-list">
+                    <li class="leaf-item"><div class="leaf-strong">Ngắt phần cứng (Hardware Interrupt):</div><div class="leaf-desc">Thiết bị ngoại vi (chuột, phím, ổ đĩa, Timer) gửi tín hiệu điện áp qua bus hệ thống tới CPU.</div></li>
+                    <li class="leaf-item"><div class="leaf-strong">Ngắt phần mềm (Trap / Exception):</div><div class="leaf-desc">Do lỗi lệnh (chia cho 0, truy xuất nhớ sai) hoặc do chương trình gọi <strong>System Call</strong>.</div></li>
+                    <li class="leaf-item"><div class="leaf-strong">Véc-tơ ngắt (Interrupt Vector): <span class="tag-label tag-key">Từ khóa</span></div><div class="leaf-desc">Mảng bảng chỉ mục chứa sẵn các <strong>địa chỉ của các hàm phục vụ ngắt (ISR)</strong> tương ứng.</div></li>
+                    <li class="leaf-item"><div class="leaf-strong">Quy trình xử lý:</div><div class="sub-steps">1. Lưu PC & Thanh ghi vào Stack &rarr; 2. Tra cứu ISR trong Interrupt Vector &rarr; 3. Chuyển Kernel mode chạy ISR &rarr; 4. Lệnh IRET khôi phục trạng thái cũ.</div></li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="branch-node c1">
+                <div class="branch-header" onclick="toggleBranch(this)"><div class="branch-title">💾 1.3. Phân cấp Lưu trữ (Storage)</div><span class="toggle-icon">▼</span></div>
+                <div class="branch-body">
+                  <ul class="leaf-list">
+                    <li class="leaf-item"><div class="leaf-strong">3 tiêu chí phân cấp: <span class="tag-label tag-trap">Kinh điển</span></div><div class="leaf-desc"><strong>Tốc độ truy xuất</strong> | <strong>Chi phí trên bit</strong> | <strong>Tính bay hơi (Volatility)</strong>.</div></li>
+                    <li class="leaf-item"><div class="leaf-strong">Thứ tự tốc độ giảm dần:</div><div class="sub-steps">Registers &gt; Cache (L1, L2, L3) &gt; RAM &gt; SSD/NVMe &gt; HDD &gt; Băng từ</div></li>
+                    <li class="leaf-item"><div class="leaf-strong">Tính bay hơi:</div><div class="leaf-desc">• <strong>Volatile (Mất khi cúp điện):</strong> Registers, Cache, RAM.<br>• <strong>Non-volatile (Bền vững):</strong> SSD, HDD, Flash ROM, Băng từ.</div></li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="branch-node c1">
+                <div class="branch-header" onclick="toggleBranch(this)"><div class="branch-title">🖥️ 1.4. Kiến trúc Hệ thống</div><span class="toggle-icon">▼</span></div>
+                <div class="branch-body">
+                  <ul class="leaf-list">
+                    <li class="leaf-item"><div class="leaf-strong">SMP vs AMP:</div><div class="leaf-desc">SMP các CPU bình đẳng chia sẻ RAM; AMP phân cấp Chủ - Tớ (Master - Slave).</div></li>
+                    <li class="leaf-item"><div class="leaf-strong">Gom cụm (Clustered):</div><div class="leaf-desc">Nối qua LAN/SAN, <strong>chia sẻ chung ổ đĩa qua SAN</strong>, hướng tới <strong>Độ sẵn sàng cao (High Availability)</strong>.</div></li>
+                    <li class="leaf-item"><div class="leaf-strong">Phân tán (Distributed):</div><div class="leaf-desc">Nối qua WAN/Internet, <strong>không chia sẻ bộ nhớ/ổ đĩa (Shared-Nothing)</strong>, liên lạc bằng Message Passing.</div></li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="branch-node c1">
+                <div class="branch-header" onclick="toggleBranch(this)"><div class="branch-title">🛡️ 1.5. Chế độ Hai Chế độ (Dual-Mode)</div><span class="toggle-icon">▼</span></div>
+                <div class="branch-body">
+                  <ul class="leaf-list">
+                    <li class="leaf-item"><div class="leaf-strong">Mode Bit: <span class="tag-label tag-trap">Bẫy điểm</span></div><div class="sub-steps">• <strong>Mode Bit = 1:</strong> User Mode (Chế độ người dùng).<br>• <strong>Mode Bit = 0:</strong> Kernel Mode (Chế độ hạt nhân / Đặc quyền).</div></li>
+                    <li class="leaf-item"><div class="leaf-strong">Lệnh đặc quyền (Privileged Instructions):</div><div class="leaf-desc">Chỉ chạy ở Kernel Mode. Nếu User mode cố chạy &rarr; ném Exception ngay.</div></li>
+                    <li class="leaf-item"><div class="leaf-strong">Bộ đếm Timer:</div><div class="leaf-desc">Ngắt định kỳ chống chương trình chạy lặp vô tận, đảm bảo đa nhiệm công bằng.</div></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CHƯƠNG 2 -->
+          <div class="chapter-tree" id="chapter2Tree">
+            <div class="chapter-pill c2" onclick="toggleChapter('chapter2Tree')">
+              <span>📗 CHƯƠNG 2: CẤU TRÚC & DỊCH VỤ HỆ ĐIỀU HÀNH</span>
+              <span class="badge">4 Chủ đề Trọng tâm</span>
+            </div>
+            <div class="branch-grid">
+              <div class="branch-node c2">
+                <div class="branch-header" onclick="toggleBranch(this)"><div class="branch-title">⚙️ 2.1. Dịch vụ HĐH Cung cấp</div><span class="toggle-icon">▼</span></div>
+                <div class="branch-body">
+                  <ul class="leaf-list">
+                    <li class="leaf-item"><div class="leaf-strong">Giao diện:</div><div class="leaf-desc">CLI (Dòng lệnh) và GUI (Đồ họa trực quan).</div></li>
+                    <li class="leaf-item"><div class="leaf-strong">Thực thi & Quản lý I/O:</div><div class="leaf-desc">Nạp mã vào RAM, cấp phát tài nguyên; che giấu phần cứng qua Device Drivers.</div></li>
+                    <li class="leaf-item"><div class="leaf-strong">Quản lý File & An ninh:</div><div class="leaf-desc">Tạo, xóa, ánh xạ file lên sectors đĩa; cô lập tiến trình và bảo vệ tài nguyên.</div></li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="branch-node c2">
+                <div class="branch-header" onclick="toggleBranch(this)"><div class="branch-title">📞 2.2. Lời gọi Hệ thống (System Call)</div><span class="toggle-icon">▼</span></div>
+                <div class="branch-body">
+                  <ul class="leaf-list">
+                    <li class="leaf-item"><div class="leaf-strong">Định nghĩa:</div><div class="leaf-desc">API trung gian cho phép chương trình người dùng yêu cầu dịch vụ của nhân Kernel.</div></li>
+                    <li class="leaf-item"><div class="leaf-strong">Cơ chế:</div><div class="leaf-desc">Kích hoạt ngắt mềm (Trap), chuyển Mode bit từ 1 (User) sang 0 (Kernel).</div></li>
+                    <li class="leaf-item"><div class="leaf-strong">3 Cách truyền tham số: <span class="tag-label tag-trap">Tự luận</span></div><div class="sub-steps">1. <strong>Thanh ghi CPU:</strong> Nhanh nhất nhưng số lượng bị giới hạn.<br>2. <strong>Khối nhớ trong RAM:</strong> Lưu khối tham số vào RAM, truyền con trỏ qua 1 thanh ghi (Linux dùng).<br>3. <strong>Ngăn xếp (Stack):</strong> Ứng dụng Push vào Stack, HĐH Pop ra.</div></li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="branch-node c2">
+                <div class="branch-header" onclick="toggleBranch(this)"><div class="branch-title">🏗️ 2.3. Bốn Kiến trúc Nhân HĐH</div><span class="toggle-icon">▼</span></div>
+                <div class="branch-body">
+                  <ul class="leaf-list">
+                    <li class="leaf-item"><div class="leaf-strong">1. Đơn khối (Monolithic):</div><div class="leaf-desc">Tất cả dịch vụ gom trong Kernel space. Cực nhanh nhưng 1 lỗi nhỏ làm sập cả HĐH.</div></li>
+                    <li class="leaf-item"><div class="leaf-strong">2. Phân lớp (Layered):</div><div class="leaf-desc">Chia N lớp. Lớp M chỉ gọi lớp M-1 ngay dưới nó. Tốc độ thấp do qua nhiều lớp.</div></li>
+                    <li class="leaf-item"><div class="leaf-strong">3. Vi nhân (Microkernel): <span class="tag-label tag-key">Trọng tâm</span></div><div class="leaf-desc">Kernel chỉ giữ IPC, lập lịch, bộ nhớ cơ bản. Đẩy Drivers, File System ra User space. Giao tiếp bằng Message Passing. Nhược điểm: Hiệu năng giảm do Context Switch liên tục.</div></li>
+                    <li class="leaf-item"><div class="leaf-strong">4. Hệ thống Lai (Hybrid):</div><div class="leaf-desc">Kết hợp tốc độ Monolithic và tính mô-đun Microkernel (macOS Darwin, Windows NT/11).</div></li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="branch-node c2">
+                <div class="branch-header" onclick="toggleBranch(this)"><div class="branch-title">🎯 2.4. Bẫy Thi Trắc Nghiệm Chương 2</div><span class="toggle-icon">▼</span></div>
+                <div class="branch-body">
+                  <ul class="leaf-list">
+                    <li class="leaf-item"><div class="leaf-strong">Bẫy Microkernel:</div><div class="leaf-desc">Nhược điểm lớn nhất là <strong>suy giảm hiệu năng</strong> do chi phí truyền thông điệp và chuyển ngữ cảnh.</div></li>
+                    <li class="leaf-item"><div class="leaf-strong">Bẫy Quản lý File vs Lưu trữ thứ cấp:</div><div class="leaf-desc">Quản lý file là tạo/xóa/đọc/ghi file; Lưu trữ thứ cấp là cấp phát sector, quản lý khoảng trống đĩa.</div></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TABLES VIEW -->
+    <div id="tablesView" class="view-panel">
+      <div class="section-card">
+        <h2>🏛️ Bảng So sánh 4 Kiến trúc Thiết kế Nhân Hệ Điều Hành</h2>
+        <div class="data-table-wrapper">
+          <table class="data-table">
+            <thead>
+              <tr><th>Tiêu chí</th><th>1. Đơn khối (Monolithic)</th><th>2. Phân lớp (Layered)</th><th>3. Vi nhân (Microkernel)</th><th>4. Hệ thống Lai (Hybrid)</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Không gian nhân</strong></td><td>Chứa tất cả dịch vụ trong Kernel</td><td>Chia thành N tầng từ HW lên UI</td><td><strong>Tối giản</strong> (Chỉ giữ IPC, lập lịch, bộ nhớ)</td><td>Chứa nhân cốt lõi + module nạp động</td></tr>
+              <tr><td><strong>Cơ chế giao tiếp</strong></td><td>Gọi hàm trực tiếp trong cùng bộ nhớ</td><td>Lớp M chỉ gọi lớp M-1</td><td><strong>Truyền thông điệp (Message Passing)</strong></td><td>Gọi hàm trực tiếp kết hợp IPC</td></tr>
+              <tr><td><strong>Hiệu năng</strong></td><td><span class="tag-label tag-good">Rất cao</span></td><td><span class="tag-label tag-trap">Thấp</span></td><td><span class="tag-label tag-trap">Giảm do Context Switch</span></td><td><span class="tag-label tag-good">Rất tốt</span></td></tr>
+              <tr><td><strong>Độ tin cậy</strong></td><td><span class="tag-label tag-trap">Kém (Dễ sập cả HĐH)</span></td><td>Tốt (Dễ cô lập kiểm thử)</td><td><span class="tag-label tag-good">Cực cao</span></td><td>Cao</td></tr>
+              <tr><td><strong>Ví dụ</strong></td><td>MS-DOS, Linux truyền thống</td><td>Hệ thống THE</td><td>Mach, QNX, Minix, seL4</td><td>macOS Darwin, Windows 10/11</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <h2>💾 Bảng Phân cấp Hệ thống Lưu trữ (Nhanh &rarr; Chậm)</h2>
+        <div class="data-table-wrapper">
+          <table class="data-table">
+            <thead>
+              <tr><th>Tầng lưu trữ</th><th>Thời gian truy xuất</th><th>Tính bay hơi khi cúp điện</th><th>Quản lý bởi</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Thanh ghi (Registers)</strong></td><td>&lt; 1 ns (Nhanh nhất)</td><td><span class="tag-label tag-trap">Bay hơi (Volatile)</span></td><td>Trình biên dịch (Compiler)</td></tr>
+              <tr><td><strong>Bộ nhớ đệm (Cache L1-L3)</strong></td><td>1 – 10 ns</td><td><span class="tag-label tag-trap">Bay hơi (Volatile)</span></td><td>Phần cứng CPU tự động</td></tr>
+              <tr><td><strong>Bộ nhớ chính (RAM)</strong></td><td>50 – 100 ns</td><td><span class="tag-label tag-trap">Bay hơi (Volatile)</span></td><td>Hệ điều hành</td></tr>
+              <tr><td><strong>Ổ thể rắn (SSD / NVMe)</strong></td><td>10 – 100 µs</td><td><span class="tag-label tag-good">Bền vững (Non-volatile)</span></td><td>Hệ điều hành</td></tr>
+              <tr><td><strong>Ổ đĩa từ (HDD)</strong></td><td>5 – 10 ms (Chậm)</td><td><span class="tag-label tag-good">Bền vững (Non-volatile)</span></td><td>Hệ điều hành</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function toggleBranch(el) { el.parentElement.classList.toggle('collapsed'); }
+    function toggleChapter(id) { const g = document.getElementById(id).querySelector('.branch-grid'); g.style.display = g.style.display === 'none' ? 'grid' : 'none'; }
+    let allCollapsed = false;
+    function toggleAllNodes() {
+      allCollapsed = !allCollapsed;
+      document.querySelectorAll('.branch-node').forEach(b => b.classList.toggle('collapsed', allCollapsed));
+      document.getElementById('toggleAllText').textContent = allCollapsed ? 'Mở rộng tất cả' : 'Thu gọn tất cả';
+      document.getElementById('toggleAllIcon').textContent = allCollapsed ? '📁' : '📂';
+    }
+    function toggleTheme() { document.body.setAttribute('data-theme', document.body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'); }
+    function filterChapter(t) {
+      document.querySelectorAll('#chapterFilterGroup .tab-btn').forEach(b => b.classList.toggle('active', b.getAttribute('data-target') === t));
+      document.getElementById('chapter1Tree').style.display = (t === 'all' || t === 'c1') ? 'block' : 'none';
+      document.getElementById('chapter2Tree').style.display = (t === 'all' || t === 'c2') ? 'block' : 'none';
+    }
+    function switchMainView(v) {
+      document.querySelectorAll('.filter-tabs button[data-view]').forEach(b => b.classList.toggle('active', b.getAttribute('data-view') === v));
+      document.getElementById('mindmapView').classList.toggle('active', v === 'mindmap');
+      document.getElementById('tablesView').classList.toggle('active', v === 'tables');
+      document.getElementById('chapterFilterGroup').style.display = v === 'mindmap' ? 'flex' : 'none';
+    }
+    function handleSearch() {
+      const q = document.getElementById('searchInput').value.trim().toLowerCase();
+      document.querySelectorAll('.branch-node').forEach(n => {
+        if (!q || n.textContent.toLowerCase().includes(q)) {
+          n.classList.remove('hidden-by-search');
+          if (q) n.classList.remove('collapsed');
+        } else {
+          n.classList.add('hidden-by-search');
+        }
+      });
+    }
+  </script>
+</body>
+</html>
